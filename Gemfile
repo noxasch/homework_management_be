@@ -18,7 +18,7 @@ gem 'puma', '>= 5.0'
 # gem "kredis"
 
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
-# gem "bcrypt", "~> 3.1.7"
+gem 'bcrypt', '~> 3.1.7'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: %i[windows jruby]
@@ -39,7 +39,8 @@ group :development, :test do
   gem 'rubocop', '~> 1.59', require: false
   gem 'rubocop-performance', '~> 1.20', require: false
   gem 'rubocop-rails', '~> 2.23', require: false
-  gem 'rubocop-rspec', '~> 2.26'
+  gem 'rubocop-rspec', '~> 2.26', require: false
+  gem 'rubocop-yard', '~> 0.8.1', require: false
 
   gem 'factory_bot_rails', '~> 6.4', require: false
   gem 'rails-controller-testing', '~> 1.0', require: false
@@ -60,6 +61,3 @@ gem 'aasm', '~> 5.5'
 gem 'cancancan', '~> 3.5'
 gem 'doorkeeper', '~> 5.6'
 gem 'kaminari', '~> 1.2'
-gem 'strong_migrations', '~> 1.7'
-
-gem 'rubocop-yard', '~> 0.8.1'
