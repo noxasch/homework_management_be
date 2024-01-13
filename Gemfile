@@ -46,7 +46,6 @@ group :development, :test do
   gem 'rails-controller-testing', '~> 1.0', require: false
   gem 'rspec-json_expectations', '~> 2.2', require: false
   gem 'rspec-rails', '~> 6.1', require: false
-  gem 'rubocop-yard', '~> 0.8.1', require: false
 end
 
 group :development do
@@ -58,6 +57,7 @@ group :development do
 end
 
 gem 'aasm', '~> 5.5'
+gem 'active_model_serializers', '~> 0.10.14'
 gem 'cancancan', '~> 3.5'
 gem 'doorkeeper', '~> 5.6'
 gem 'kaminari', '~> 1.2'
