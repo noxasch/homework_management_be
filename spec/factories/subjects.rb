@@ -8,6 +8,11 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
-class Subject < ApplicationRecord
-  validates :color, length: { minimum: 7, maximum: 7 }, format: { with: '^#(?:[0-9a-fA-F]{3}){1,2}$' }
+FactoryBot.define do
+  factory :subject do
+    sequence(:name) do |n|
+      "#{n.ordinalize} Quote"
+    end
+    color { '#6495ed' }
+  end
 end

@@ -8,6 +8,8 @@
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
-class Subject < ApplicationRecord
-  validates :color, length: { minimum: 7, maximum: 7 }, format: { with: '^#(?:[0-9a-fA-F]{3}){1,2}$' }
+require 'rails_helper'
+
+RSpec.describe Subject, type: :model do
+  pending "add some examples to (or delete) #{__FILE__}"
 end

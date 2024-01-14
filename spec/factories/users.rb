@@ -14,19 +14,8 @@
 #
 #  index_users_on_email  (email) UNIQUE
 #
-class User < ApplicationRecord
-  has_secure_password
-  validates :email, presence: true, email: true
-
-  # rubocop:disable Rails/InverseOf
-  has_many :access_tokens,
-           class_name: 'Doorkeeper::AccessToken',
-           foreign_key: :resource_owner_id,
-           dependent: :delete_all
-  # rubocop:enable Rails/InverseOf
-
-  enum role: {
-    student: 'student',
-    teacher: 'teacher'
-  }
+FactoryBot.define do
+  factory :user do
+    
+  end
 end
