@@ -22,4 +22,7 @@
 #
 class Homework < ApplicationRecord
   belongs_to :teacher, class_name: 'User'
+  belongs_to :subject
+
+  has_many :student_homeworks, dependent: :destroy
 end

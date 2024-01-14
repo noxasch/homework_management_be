@@ -7,7 +7,6 @@
 #  name            :string           not null
 #  password_digest :string
 #  role            :string           default("student"), not null
-#  status          :integer          default("new"), not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
 #
@@ -28,11 +27,5 @@ class User < ApplicationRecord
   enum role: {
     student: 'student',
     teacher: 'teacher'
-  }
-
-  enum status: {
-    new: 0,
-    invited: 1
-
   }
 end

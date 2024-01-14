@@ -34,26 +34,26 @@ gem 'bootsnap', require: false
 
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem 'bullet', '~> 7.1', require: false
+  gem 'bullet', '~> 7.1'
   gem 'debug', platforms: %i[mri windows]
-  gem 'rubocop', '~> 1.59', require: false
-  gem 'rubocop-performance', '~> 1.20', require: false
-  gem 'rubocop-rails', '~> 2.23', require: false
-  gem 'rubocop-rspec', '~> 2.26', require: false
-  gem 'rubocop-yard', '~> 0.8.1', require: false
+  gem 'rubocop', '~> 1.59'
+  gem 'rubocop-performance', '~> 1.20'
+  gem 'rubocop-rails', '~> 2.23'
+  gem 'rubocop-rspec', '~> 2.26'
+  gem 'rubocop-yard', '~> 0.8.1'
 
-  gem 'factory_bot_rails', '~> 6.4', require: false
-  gem 'rails-controller-testing', '~> 1.0', require: false
-  gem 'rspec-json_expectations', '~> 2.2', require: false
-  gem 'rspec-rails', '~> 6.1', require: false
+  gem 'factory_bot_rails', '~> 6.4'
+  gem 'rails-controller-testing', '~> 1.0'
+  gem 'rspec-json_expectations', '~> 2.2'
+  gem 'rspec-rails', '~> 6.1'
 end
 
 group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
-  gem 'annotate', '~> 3.2', require: false
-  gem 'solargraph', '~> 0.50.0', require: false
-  gem 'solargraph-rails', '~> 1.1', require: false
+  gem 'annotate', '~> 3.2'
+  gem 'solargraph', '~> 0.50.0'
+  gem 'solargraph-rails', '~> 1.1'
 end
 
 gem 'aasm', '~> 5.5'
