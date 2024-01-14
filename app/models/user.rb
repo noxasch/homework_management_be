@@ -3,12 +3,17 @@
 # Table name: users
 #
 #  id              :bigint           not null, primary key
-#  email           :string
-#  name            :string
+#  email           :string           not null
+#  name            :string           not null
 #  password_digest :string
-#  role            :string
+#  role            :string           default("student"), not null
+#  status          :integer          default("new"), not null
 #  created_at      :datetime         not null
 #  updated_at      :datetime         not null
+#
+# Indexes
+#
+#  index_users_on_email  (email) UNIQUE
 #
 class User < ApplicationRecord
   has_secure_password
@@ -19,4 +24,15 @@ class User < ApplicationRecord
            foreign_key: :resource_owner_id,
            dependent: :delete_all
   # rubocop:enable Rails/InverseOf
+
+  enum role: {
+    student: 'student',
+    teacher: 'teacher'
+  }
+
+  enum status: {
+    new: 0,
+    invited: 1
+
+  }
 end
