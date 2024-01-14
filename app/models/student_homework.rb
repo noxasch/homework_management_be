@@ -4,7 +4,7 @@
 #
 #  id                :bigint           not null, primary key
 #  invited_at        :datetime
-#  status            :integer          default("pending")
+#  status            :integer          default("new")
 #  created_at        :datetime         not null
 #  updated_at        :datetime         not null
 #  homework_id       :bigint           not null
@@ -27,7 +27,9 @@ class StudentHomework < ApplicationRecord
   belongs_to :homework
 
   enum status: {
-    pending: 0,
-    submitted: 1
+    new: 0,
+    invited: 1,
+    pending_submission: 2,
+    completed: 3
   }
 end
