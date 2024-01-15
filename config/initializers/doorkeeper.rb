@@ -1,18 +1,32 @@
 # frozen_string_literal: true
 
 Doorkeeper.configure do
+  api_only
+  base_controller 'ActionController::API'
   # Change the ORM that doorkeeper will use (requires ORM extensions installed).
   # Check the list of supported ORMs here: https://github.com/doorkeeper-gem/doorkeeper#orms
   orm :active_record
   default_scopes :api
 
   # This block will be called to check whether the resource owner is authenticated or not.
-  resource_owner_authenticator do
-    User.find_by_id(session[:user_id]) || render(json: {}, status: 403)
-    # raise "Please configure doorkeeper resource_owner_authenticator block located in #{__FILE__}"
-    # Put your resource owner authentication logic here.
-    # Example implementation:
-    #   User.find_by(id: session[:user_id]) || redirect_to(new_user_session_url)
+  # resource_owner_authenticator do
+  #   User.find_by_id(session[:user_id]) || render(json: {}, status: 403)
+  #   # raise "Please configure doorkeeper resource_owner_authenticator block located in #{__FILE__}"
+  #   # Put your resource owner authentication logic here.
+  #   # Example implementation:
+  #   #   User.find_by(id: session[:user_id]) || redirect_to(new_user_session_url)
+  # end
+
+  # skip_client_authentication_for_password_grant true
+
+  resource_owner_from_credentials do
+    u = User.find_by_email(params[:email])
+
+    if u && u.authenticate(params[:password])
+       u
+    else
+      nil
+    end
   end
 
   # If you didn't skip applications controller from Doorkeeper routes in your application routes.rb
@@ -356,6 +370,7 @@ Doorkeeper.configure do
   #   https://datatracker.ietf.org/doc/html/rfc6819#section-4.4.3
   #
   # grant_flows %w[authorization_code client_credentials]
+  grant_flows %w[password]
 
   # Allows to customize OAuth grant flows that +each+ application support.
   # You can configure a custom block (or use a class respond to `#call`) that must
@@ -456,6 +471,10 @@ Doorkeeper.configure do
   # skip_authorization do |resource_owner, client|
   #   client.superapp? or resource_owner.admin?
   # end
+
+  skip_authorization do
+    true
+  end
 
   # Configure custom constraints for the Token Introspection request.
   # By default this configuration option allows to introspect a token by another

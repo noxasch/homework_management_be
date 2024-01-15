@@ -11,6 +11,8 @@
 2. Make sure postgres is running
 
 ```sh
+bin/setup
+
 # prepare database
 bundle exec rails db:create db:migrate db:seeds
 
@@ -34,7 +36,21 @@ docker exec -it homework-be_dev bash
 ## Deployment (docker)
 
 
+## API docs
 
+```sh
+# get oauth token
+POST /oauth/token
+
+```
+
+```js
+{
+  'email':'email@example.com',
+  'password':'PASSWORD',
+  'grant_type': 'password'
+}
+```
 
 <!-- This README would normally document whatever steps are necessary to get the
 application up and running.

@@ -7,3 +7,11 @@
 #   ["Action", "Comedy", "Drama", "Horror"].each do |genre_name|
 #     MovieGenre.find_or_create_by!(name: genre_name)
 #   end
+if Doorkeeper::Application.count.zero?
+  Doorkeeper::Application.create(
+    name: 'Vue client',
+    redirect_uri: 'urn:ietf:wg:oauth:2.0:oob',
+    scopes: %w[read write],
+    confidential: false
+  )
+end
