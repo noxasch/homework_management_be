@@ -17,7 +17,7 @@ Doorkeeper.configure do
   #   #   User.find_by(id: session[:user_id]) || redirect_to(new_user_session_url)
   # end
 
-  # skip_client_authentication_for_password_grant true
+  skip_client_authentication_for_password_grant true
 
   resource_owner_from_credentials do
     u = User.find_by_email(params[:email])
@@ -25,6 +25,7 @@ Doorkeeper.configure do
     if u && u.authenticate(params[:password])
        u
     else
+      # TODO: customize error message
       nil
     end
   end
