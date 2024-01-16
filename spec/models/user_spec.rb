@@ -33,4 +33,25 @@ RSpec.describe User, type: :model do
       expect(user.student?).to be(false)
     end
   end
+
+  context 'when defined relationship' do
+    let(:teacher) do
+      create(:user, role: :teacher, name: 'Teacher 1', email: 'teacher@gmail.com', password: 'password')
+    end
+    let(:maths) do
+      create(:subject, color: '#ff3333', name: 'Mathematics')
+    end
+    let(:homework) do
+      create(:homework, title: 'Calculus', due_at: Time.current, teacher:, subject: maths)
+    end
+
+    before do
+      homework
+    end
+
+    it 'refer to the correct object' do
+      expect(teacher.homeworks.first).to eq(homework)
+      expect(teacher.homeworks.first.teacher).to eq(teacher)
+    end
+  end
 end

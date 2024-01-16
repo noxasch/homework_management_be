@@ -21,7 +21,7 @@
 #  fk_rails_...  (teacher_id => users.id)
 #
 class Homework < ApplicationRecord
-  belongs_to :teacher, class_name: 'User'
+  belongs_to :teacher, -> { where(role: :teacher) }, class_name: 'User', inverse_of: :homeworks
   belongs_to :subject
 
   has_many :student_homeworks, dependent: :destroy

@@ -52,6 +52,33 @@ POST /oauth/token
 }
 ```
 
+#### homeworks
+
+```
+GET /api/v1/teachers/homeworks
+```
+
+```json
+body: {
+  "homeworks": [
+    {
+      "title":"Calculus",
+      "subject":"Mathematics",
+      "due_date":"25-10-2024",
+      "submitted": 3,
+      "total": 20
+    }
+  ],
+  "meta": {
+    "current_page": 1,
+    "next_page": 1,
+    "prev_page": null,
+    "total_pages": 1,
+    "total_count": 6
+  }
+}
+```
+
 <!-- This README would normally document whatever steps are necessary to get the
 application up and running.
 

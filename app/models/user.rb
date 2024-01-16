@@ -25,6 +25,9 @@ class User < ApplicationRecord
            dependent: :delete_all
   # rubocop:enable Rails/InverseOf
 
+  has_many :homeworks, dependent: :destroy, inverse_of: :teacher
+  has_many :student_homeworks, dependent: :destroy, inverse_of: :student
+
   enum role: {
     student: 'student',
     teacher: 'teacher'

@@ -23,7 +23,7 @@
 #  fk_rails_...  (student_id => users.id)
 #
 class StudentHomework < ApplicationRecord
-  belongs_to :student, class_name: 'User'
+  belongs_to :student, -> { where(role: :student) }, class_name: 'User', inverse_of: :student_homeworks
   belongs_to :homework
 
   enum status: {
