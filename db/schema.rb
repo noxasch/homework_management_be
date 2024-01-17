@@ -14,6 +14,19 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_14_165611) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "assigned_homeworks", force: :cascade do |t|
+    t.bigint "student_id", null: false
+    t.bigint "homework_id", null: false
+    t.integer "status", default: 0
+    t.string "submitted_file_id"
+    t.datetime "invited_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["homework_id", "student_id"], name: "index_assigned_homeworks_on_homework_id_and_student_id", unique: true
+    t.index ["homework_id"], name: "index_assigned_homeworks_on_homework_id"
+    t.index ["student_id"], name: "index_assigned_homeworks_on_student_id"
+  end
+
   create_table "homeworks", force: :cascade do |t|
     t.bigint "teacher_id", null: false
     t.bigint "subject_id", null: false
@@ -68,19 +81,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_14_165611) do
     t.index ["uid"], name: "index_oauth_applications_on_uid", unique: true
   end
 
-  create_table "student_homeworks", force: :cascade do |t|
-    t.bigint "student_id", null: false
-    t.bigint "homework_id", null: false
-    t.integer "status", default: 0
-    t.string "submitted_file_id"
-    t.datetime "invited_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["homework_id", "student_id"], name: "index_student_homeworks_on_homework_id_and_student_id", unique: true
-    t.index ["homework_id"], name: "index_student_homeworks_on_homework_id"
-    t.index ["student_id"], name: "index_student_homeworks_on_student_id"
-  end
-
   create_table "subjects", force: :cascade do |t|
     t.string "name"
     t.string "color"
@@ -98,11 +98,11 @@ ActiveRecord::Schema[7.1].define(version: 2024_01_14_165611) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "assigned_homeworks", "homeworks"
+  add_foreign_key "assigned_homeworks", "users", column: "student_id"
   add_foreign_key "homeworks", "users", column: "teacher_id"
   add_foreign_key "oauth_access_grants", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_grants", "users", column: "resource_owner_id"
   add_foreign_key "oauth_access_tokens", "oauth_applications", column: "application_id"
   add_foreign_key "oauth_access_tokens", "users", column: "resource_owner_id"
-  add_foreign_key "student_homeworks", "homeworks"
-  add_foreign_key "student_homeworks", "users", column: "student_id"
 end

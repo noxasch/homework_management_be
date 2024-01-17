@@ -13,7 +13,13 @@ Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
       namespace :teachers do
-        resources :homeworks
+        resources :homeworks do
+          post 'assign', on: :member
+        end
+      end
+
+      resources :student, only: %i[index] do
+        resources :assigned_homeworks, only: %i[update]
       end
     end
   end

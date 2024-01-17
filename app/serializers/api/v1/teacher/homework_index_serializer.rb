@@ -1,4 +1,4 @@
-class Api::V1::Teacher::HomeworkIndexSerializerSerializer < ApplicationSerializer
+class Api::V1::Teacher::HomeworkIndexSerializer < ApplicationSerializer
   attributes :id, :title, :subject, :due_date, :submitted, :total
 
   def subject

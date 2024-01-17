@@ -1,7 +1,7 @@
 class Api::V1::Teachers::HomeworksController < Api::V1::TeachersController
   def index
     render json: homeworks,
-           each_serializer: ::Api::V1::Teacher::HomeworkIndexSerializerSerializer,
+           each_serializer: ::Api::V1::Teacher::HomeworkIndexSerializer,
            meta: meta(homeworks),
            adapter: :json
   end
@@ -11,7 +11,7 @@ class Api::V1::Teachers::HomeworksController < Api::V1::TeachersController
       render json: homework,
              status: :ok,
              # TODO: change this to homework details serializer
-             serializer: ::Api::V1::Teacher::HomeworkIndexSerializerSerializer
+             serializer: ::Api::V1::Teacher::HomeworkIndexSerializer
     else
       record_not_found
     end
@@ -23,7 +23,7 @@ class Api::V1::Teachers::HomeworksController < Api::V1::TeachersController
     if outcome.success?
       render json: outcome.result,
              status: :created,
-             serializer: ::Api::V1::Teacher::HomeworkIndexSerializerSerializer
+             serializer: ::Api::V1::Teacher::HomeworkIndexSerializer
     else
       render json: { errors: {} }, status: :unprocessable_entity
     end
@@ -35,9 +35,9 @@ class Api::V1::Teachers::HomeworksController < Api::V1::TeachersController
     if outcome.success?
       render json: outcome.result,
              status: :accepted,
-             serializer: ::Api::V1::Teacher::HomeworkIndexSerializerSerializer
+             serializer: ::Api::V1::Teacher::HomeworkIndexSerializer
     else
-      # map error into hash
+      # map outcome error into hash
       render json: { errors: {} }, status: :unprocessable_entity
     end
   end
@@ -48,6 +48,7 @@ class Api::V1::Teachers::HomeworksController < Api::V1::TeachersController
     if outcome.success?
       render json: { success: true }, status: :accepted
     else
+      # map outcome error into hash
       render json: { errors: {} }, status: :unprocessable_entity
     end
   end
@@ -58,9 +59,9 @@ class Api::V1::Teachers::HomeworksController < Api::V1::TeachersController
     if outcome.success?
       render json: outcome.result,
              status: :accepted,
-             serializer: ::Api::V1::Teacher::HomeworkIndexSerializerSerializer
+             serializer: ::Api::V1::Teacher::HomeworkIndexSerializer
     else
-      # map error into hash
+      # map outcome error into hash
       render json: { errors: {} }, status: :unprocessable_entity
     end
   end
