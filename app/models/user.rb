@@ -26,7 +26,7 @@ class User < ApplicationRecord
   # rubocop:enable Rails/InverseOf
 
   has_many :homeworks, dependent: :destroy, inverse_of: :teacher
-  has_many :student_homeworks, dependent: :destroy, inverse_of: :student
+  has_many :assigned_homeworks, dependent: :destroy, inverse_of: :student
 
   enum role: {
     student: 'student',

@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: student_homeworks
+# Table name: assigned_homeworks
 #
 #  id                :bigint           not null, primary key
 #  invited_at        :datetime
@@ -13,9 +13,9 @@
 #
 # Indexes
 #
-#  index_student_homeworks_on_homework_id                 (homework_id)
-#  index_student_homeworks_on_homework_id_and_student_id  (homework_id,student_id) UNIQUE
-#  index_student_homeworks_on_student_id                  (student_id)
+#  index_assigned_homeworks_on_homework_id                 (homework_id)
+#  index_assigned_homeworks_on_homework_id_and_student_id  (homework_id,student_id) UNIQUE
+#  index_assigned_homeworks_on_student_id                  (student_id)
 #
 # Foreign Keys
 #
@@ -23,7 +23,6 @@
 #  fk_rails_...  (student_id => users.id)
 #
 FactoryBot.define do
-  factory :student_homework do
-    
+  factory :assigned_homework do
   end
 end

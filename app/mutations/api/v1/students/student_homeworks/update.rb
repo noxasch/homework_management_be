@@ -1,4 +1,4 @@
-class Api::V1::Students::StudentHomeworks::Update
+class Api::V1::Students::AssignedHomework::Update
   required do
   end
 

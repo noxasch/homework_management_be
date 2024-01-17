@@ -24,7 +24,7 @@ class Homework < ApplicationRecord
   belongs_to :teacher, -> { where(role: :teacher) }, class_name: 'User', inverse_of: :homeworks
   belongs_to :subject
 
-  has_many :student_homeworks, dependent: :destroy
+  has_many :assigned_homeworks, dependent: :destroy
 
   def self.search(args = {})
     return all if args.blank?
