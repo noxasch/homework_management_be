@@ -11,7 +11,9 @@ class ApplicationController < ActionController::API
     render json: { success: true }, status: :ok
   end
 
-  def record_not_found; end
+  def record_not_found
+    render json: { errors: { not_found: 'Record cannot be found' } }, status: :not_found
+  end
 
   def per
     params[:per].to_i.positive? ? params[:per].to_i : Kaminari.config.default_per_page

@@ -6,7 +6,7 @@ class Api::V1::Teacher::HomeworkIndexSerializerSerializer < ApplicationSerialize
   end
 
   def due_date
-    object.due_at
+    datetime_formatted(object.due_at)
   end
 
   def submitted
