@@ -20,6 +20,8 @@ class Api::V1::Teachers::Homeworks::Update < ApplicationMutation
     true
   end
 
+  private
+
   def homework
     return @homework if @homework
 

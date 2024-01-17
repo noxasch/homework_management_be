@@ -52,6 +52,19 @@ class Api::V1::Teachers::HomeworksController < Api::V1::TeachersController
     end
   end
 
+  def assign
+    outcome = Api::V1::Teachers::Homeworks::Assign.run(assign_params)
+
+    if outcome.success?
+      render json: outcome.result,
+             status: :accepted,
+             serializer: ::Api::V1::Teacher::HomeworkIndexSerializerSerializer
+    else
+      # map error into hash
+      render json: { errors: {} }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def homework
@@ -68,11 +81,11 @@ class Api::V1::Teachers::HomeworksController < Api::V1::TeachersController
     }
   end
 
-  def destroy_params
+  def create_params
     {
-      id: params[:id],
+      **base_params,
       current_user:
-    }
+    }.compact
   end
 
   def update_params
@@ -82,9 +95,17 @@ class Api::V1::Teachers::HomeworksController < Api::V1::TeachersController
     }.compact
   end
 
-  def create_params
+  def destroy_params
     {
-      **base_params,
+      id: params[:id],
+      current_user:
+    }
+  end
+
+  def assign_params
+    {
+      id: params[:id],
+      student_id: params[:student_id],
       current_user:
     }.compact
   end

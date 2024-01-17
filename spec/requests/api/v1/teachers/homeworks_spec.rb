@@ -143,4 +143,32 @@ RSpec.describe 'Api::V1::Teachers::Homeworks', type: :request do
       expect(response).to have_http_status(:accepted)
     end
   end
+
+  describe 'POST /assign' do
+    let(:student) do
+      create(:user, role: :student, name: 'Student 1', email: 'student@gmail.com', password: 'password')
+    end
+
+    let(:params) do
+      {
+        student_id: student.id
+      }
+    end
+
+    before do
+      homework
+    end
+
+    it do
+      post "/api/v1/teachers/homeworks/#{homework.id}/assign", params:, headers: { Authorization: "Bearer #{token.token}" }
+      expect(response).to have_http_status(:accepted)
+      expect(response.parsed_body).to include_json({
+        title: 'Calculus',
+        subject: maths.name,
+        due_date: '14-01-2024',
+        submitted: 0,
+        total: 1
+      })
+    end
+  end
 end

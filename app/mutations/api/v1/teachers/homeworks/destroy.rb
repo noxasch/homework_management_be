@@ -10,6 +10,8 @@ class Api::V1::Teachers::Homeworks::Destroy < ApplicationMutation
     homework.destroy! && true
   end
 
+  private
+
   def homework
     @homework ||= current_user.homeworks.find_by(id:)
   end
