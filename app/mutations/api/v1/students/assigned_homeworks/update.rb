@@ -1,4 +1,4 @@
-class Api::V1::Students::AssignedHomework::Update
+class Api::V1::Students::AssignedHomeworks::Update < ApplicationMutation
   required do
   end
 

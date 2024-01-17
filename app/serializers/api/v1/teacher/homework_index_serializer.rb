@@ -10,10 +10,10 @@ class Api::V1::Teacher::HomeworkIndexSerializer < ApplicationSerializer
   end
 
   def submitted
-    object.student_homeworks.where(status: :completed).count
+    object.assigned_homeworks.where(status: :completed).count
   end
 
   def total
-    object.student_homeworks.count
+    object.assigned_homeworks.count
   end
 end

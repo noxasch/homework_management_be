@@ -13,12 +13,10 @@ RSpec.describe 'Api::V1::Teachers::Homeworks', type: :request do
   let(:homework2) do
     create(:homework, title: 'Algebra', due_at: Time.zone.parse('2024-01-15'), teacher:, subject: maths)
   end
-  let(:application) { create(:application) }
-  let(:token) { create(:access_token, application:, resource_owner_id: teacher.id) }
+  let(:token) { create(:access_token, resource_owner_id: teacher.id, scopes: 'api') }
 
   before do
     host! 'www.example.com'
-    # token
   end
 
   describe 'GET /index' do
@@ -26,6 +24,7 @@ RSpec.describe 'Api::V1::Teachers::Homeworks', type: :request do
       homework && homework2
     end
 
+    # kSGB0geE5-zwzcwyDFBurV79JfTjcZW82vWaGaIsF40
     it do
       get '/api/v1/teachers/homeworks', params: {}, headers: { Authorization: "Bearer #{token.token}" }
       expect(response).to have_http_status(:ok)
@@ -37,6 +36,18 @@ RSpec.describe 'Api::V1::Teachers::Homeworks', type: :request do
         get '/api/v1/teachers/homeworks', params: { query: 'Cal' }, headers: { Authorization: "Bearer #{token.token}" }
         expect(response).to have_http_status(:ok)
         expect(response.parsed_body['homeworks'].length).to eq(1)
+      end
+    end
+
+    context 'when sorted_by' do
+      it do
+        get '/api/v1/teachers/homeworks', params: { sorted_by: 'subject' },
+                                          headers: { Authorization: "Bearer #{token.token}" }
+        expect(response).to have_http_status(:ok)
+        expect(response.parsed_body['homeworks'].length).to eq(2)
+        expect(response.parsed_body['homeworks'].pluck('id')).to eq([
+          homework2.id, homework.id
+        ])
       end
     end
   end
@@ -62,8 +73,7 @@ RSpec.describe 'Api::V1::Teachers::Homeworks', type: :request do
       let(:student) do
         create(:user, role: :student, name: 'Student 1', email: 'student@gmail.com', password: 'password')
       end
-      let(:application) { create(:application) }
-      let(:token) { create(:access_token, application:, resource_owner_id: student.id) }
+      let(:token) { create(:access_token, resource_owner_id: student.id, scopes: 'api') }
 
       it do
         get '/api/v1/teachers/homeworks/123123', params: {}, headers: { Authorization: "Bearer #{token.token}" }

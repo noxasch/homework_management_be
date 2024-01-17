@@ -73,7 +73,11 @@ class Api::V1::Teachers::HomeworksController < Api::V1::TeachersController
   end
 
   def homeworks
-    @homeworks ||= current_user.homeworks.search(search_params).page(page).per(per)
+    @homeworks ||= current_user
+                   .homeworks
+                   .search(search_params)
+                   .sorted_by(sorted_by_params)
+                   .page(page).per(per)
   end
 
   def search_params
@@ -113,5 +117,9 @@ class Api::V1::Teachers::HomeworksController < Api::V1::TeachersController
 
   def base_params
     params.permit(:id, :title, :due_at, :subject_id)
+  end
+
+  def sorted_by_params
+    params[:sorted_by]
   end
 end

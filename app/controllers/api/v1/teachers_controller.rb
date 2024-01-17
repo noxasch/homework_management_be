@@ -1,4 +1,4 @@
-class Api::V1::TeachersController < ApplicationController
+class Api::V1::TeachersController < Api::V1::ApiController
   before_action :authorize_user
 
   private

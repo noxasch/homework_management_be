@@ -13,7 +13,7 @@ describe Api::V1::Teachers::Homeworks::Create, type: :mutation do
     {
       title: 'Calculus',
       current_user: teacher,
-      subject: maths,
+      subject_id: maths.id,
       due_at: '2024-01-16 +08'
     }
   end

@@ -1,4 +1,4 @@
-class Api::V1::StudentController < ApplicationController
+class Api::V1::StudentController < Api::V1::ApiController
   def index
     render json: assigned_homeworks,
            each_serializer: ::Api::V1::Student::HomeworkIndexSerializer,

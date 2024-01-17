@@ -23,11 +23,10 @@ RSpec.describe 'Api::V1::Students', type: :request do
     create(:assigned_homework, homework: homework2, student:)
   end
   let(:application) { create(:application) }
-  let(:token) { create(:access_token, application:, resource_owner_id: student.id) }
+  let(:token) { create(:access_token, resource_owner_id: student.id, scopes: 'api') }
 
   before do
     host! 'www.example.com'
-    # token
   end
 
   describe 'GET /index' do
