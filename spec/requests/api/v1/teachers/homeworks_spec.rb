@@ -126,4 +126,21 @@ RSpec.describe 'Api::V1::Teachers::Homeworks', type: :request do
       })
     end
   end
+
+  describe 'DELETE /destroy' do
+    let(:params) do
+      {
+        id: homework.id
+      }
+    end
+
+    before do
+      homework
+    end
+
+    it do
+      delete "/api/v1/teachers/homeworks/#{homework.id}", params:, headers: { Authorization: "Bearer #{token.token}" }
+      expect(response).to have_http_status(:accepted)
+    end
+  end
 end

@@ -30,7 +30,7 @@ class Api::V1::Teachers::HomeworksController < Api::V1::TeachersController
   end
 
   def update
-    outcome = Api::V1::Teachers::Homeworks::Create.run(create_params)
+    outcome = Api::V1::Teachers::Homeworks::Update.run(update_params)
 
     if outcome.success?
       render json: outcome.result,
@@ -43,7 +43,7 @@ class Api::V1::Teachers::HomeworksController < Api::V1::TeachersController
   end
 
   def destroy
-    outcome = Api::V1::Teachers::Homeworks::Create.run(destroy_params)
+    outcome = Api::V1::Teachers::Homeworks::Destroy.run(destroy_params)
 
     if outcome.success?
       render json: { success: true }, status: :accepted
@@ -90,6 +90,6 @@ class Api::V1::Teachers::HomeworksController < Api::V1::TeachersController
   end
 
   def base_params
-    params.permit(:title, :due_at, :subject_id)
+    params.permit(:id, :title, :due_at, :subject_id)
   end
 end

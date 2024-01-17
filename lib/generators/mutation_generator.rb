@@ -3,7 +3,7 @@ class MutationGenerator < Rails::Generators::NamedBase
 
   def create_mutation_file
     create_file "app/mutations/#{file_path}.rb", <<~RUBY
-      class #{class_name}
+      class #{class_name} < ApplicationMutation
         required do
         end
 

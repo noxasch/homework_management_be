@@ -1,11 +1,11 @@
-class Api::V1::Teachers::Homeworks::Update
+class Api::V1::Teachers::Homeworks::Update < ApplicationMutation
   required do
     model :current_user, class: ::User
     integer :id
   end
 
   optional do
-    model :subject, class: ::Subject
+    integer :subject_id
     time :due_at
     string :title
   end
@@ -30,9 +30,9 @@ class Api::V1::Teachers::Homeworks::Update
 
   def params
     inputs.slice(
-      subject_id:,
-      title:,
-      due_at:
+      :subject_id,
+      :title,
+      :due_at
     ).compact
   end
 end
