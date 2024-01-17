@@ -1,4 +1,4 @@
-class Api::V1::Teachers::HomeworksController < ApplicationController
+class Api::V1::Teachers::HomeworksController < Api::V1::TeachersController
   def index
     render json: homeworks,
            each_serializer: ::Api::V1::Teacher::HomeworkIndexSerializerSerializer,
@@ -10,6 +10,7 @@ class Api::V1::Teachers::HomeworksController < ApplicationController
     if homework
       render json: homework,
              status: :ok,
+             # TODO: change this to homework details serializer
              serializer: ::Api::V1::Teacher::HomeworkIndexSerializerSerializer
     else
       record_not_found
@@ -24,12 +25,32 @@ class Api::V1::Teachers::HomeworksController < ApplicationController
              status: :created,
              serializer: ::Api::V1::Teacher::HomeworkIndexSerializerSerializer
     else
-      render json: {}, status: :unprocessable_entity
+      render json: { errors: {} }, status: :unprocessable_entity
     end
   end
 
-  def update; end
-  def destroy; end
+  def update
+    outcome = Api::V1::Teachers::Homeworks::Create.run(create_params)
+
+    if outcome.success?
+      render json: outcome.result,
+             status: :accepted,
+             serializer: ::Api::V1::Teacher::HomeworkIndexSerializerSerializer
+    else
+      # map error into hash
+      render json: { errors: {} }, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    outcome = Api::V1::Teachers::Homeworks::Create.run(destroy_params)
+
+    if outcome.success?
+      render json: { success: true }, status: :accepted
+    else
+      render json: { errors: {} }, status: :unprocessable_entity
+    end
+  end
 
   private
 
@@ -47,7 +68,28 @@ class Api::V1::Teachers::HomeworksController < ApplicationController
     }
   end
 
+  def destroy_params
+    {
+      id: params[:id],
+      current_user:
+    }
+  end
+
+  def update_params
+    {
+      **base_params,
+      current_user:
+    }.compact
+  end
+
   def create_params
-    params.require(:homework).permit(:title, :due_at, :subject_id)
+    {
+      **base_params,
+      current_user:
+    }.compact
+  end
+
+  def base_params
+    params.permit(:title, :due_at, :subject_id)
   end
 end

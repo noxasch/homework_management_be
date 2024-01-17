@@ -8,10 +8,10 @@ RSpec.describe 'Api::V1::Teachers::Homeworks', type: :request do
     create(:subject, color: '#ff3333', name: 'Mathematics')
   end
   let(:homework) do
-    create(:homework, title: 'Calculus', due_at: Time.current, teacher:, subject: maths)
+    create(:homework, title: 'Calculus', due_at: Time.zone.parse('2024-01-14'), teacher:, subject: maths)
   end
   let(:homework2) do
-    create(:homework, title: 'Algebra', due_at: Time.current, teacher:, subject: maths)
+    create(:homework, title: 'Algebra', due_at: Time.zone.parse('2024-01-15'), teacher:, subject: maths)
   end
   let(:application) { create(:application) }
   let(:token) { create(:access_token, application:, resource_owner_id: teacher.id) }
@@ -75,11 +75,38 @@ RSpec.describe 'Api::V1::Teachers::Homeworks', type: :request do
   describe 'POST /create' do
     let(:params) do
       {
-        homework: {
-          title: 'Test homework',
-          due_at: '2024-01-17',
-          subject_id: maths.id
-        }
+        title: 'Test homework',
+        due_at: '2024-01-17',
+        subject_id: maths.id
+      }
+    end
+
+    before do
+      teacher && maths
+    end
+
+    it do
+      post '/api/v1/teachers/homeworks', params:, headers: { Authorization: "Bearer #{token.token}" }
+      expect(response).to have_http_status(:created)
+      expect(response.parsed_body).to include_json({
+        title: params[:title],
+        subject: maths.name,
+        due_date: '17-01-2024',
+        submitted: 0,
+        total: 0
+      })
+    end
+  end
+
+  describe 'PUT /update' do
+    let(:history) do
+      create(:subject, color: '#4ca64c', name: 'History')
+    end
+    let(:params) do
+      {
+        title: 'Updated title',
+        due_at: '2024-01-17',
+        subject_id: history.id
       }
     end
 
@@ -88,11 +115,11 @@ RSpec.describe 'Api::V1::Teachers::Homeworks', type: :request do
     end
 
     it do
-      post '/api/v1/teachers/homeworks', params:, headers: { Authorization: "Bearer #{token.token}" }
-      expect(response).to have_http_status(:created)
+      put "/api/v1/teachers/homeworks/#{homework.id}", params:, headers: { Authorization: "Bearer #{token.token}" }
+      expect(response).to have_http_status(:accepted)
       expect(response.parsed_body).to include_json({
-        title: params[:homework][:title],
-        subject: maths.name,
+        title: 'Updated title',
+        subject: 'History',
         due_date: '17-01-2024',
         submitted: 0,
         total: 0

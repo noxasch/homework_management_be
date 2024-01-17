@@ -7,6 +7,9 @@ class MutationGenerator < Rails::Generators::NamedBase
         required do
         end
 
+        optional do
+        end
+
         protected
 
         def execute; end

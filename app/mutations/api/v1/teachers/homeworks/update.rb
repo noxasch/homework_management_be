@@ -1,7 +1,11 @@
-class Api::V1::Teachers::Homeworks::Create < ApplicationMutation
+class Api::V1::Teachers::Homeworks::Update
   required do
     model :current_user, class: ::User
-    integer :subject_id
+    integer :id
+  end
+
+  optional do
+    model :subject, class: ::Subject
     time :due_at
     string :title
   end
@@ -16,21 +20,19 @@ class Api::V1::Teachers::Homeworks::Create < ApplicationMutation
     true
   end
 
-  private
-
   def homework
     return @homework if @homework
 
-    @homework = current_user.homeworks.new
+    @homework = current_user.homeworks.find(id)
     @homework.assign_attributes(params)
     @homework
   end
 
   def params
-    {
+    inputs.slice(
       subject_id:,
       title:,
       due_at:
-    }
+    ).compact
   end
 end
