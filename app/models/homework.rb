@@ -25,4 +25,12 @@ class Homework < ApplicationRecord
   belongs_to :subject
 
   has_many :student_homeworks, dependent: :destroy
+
+  def self.search(args = {})
+    return all if args.blank?
+
+    res = all
+    res = res.where('homeworks.title ILIKE :query', query: "%#{args[:q].downcase}%") if args[:q].present?
+    res
+  end
 end

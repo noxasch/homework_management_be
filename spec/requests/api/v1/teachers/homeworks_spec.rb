@@ -10,6 +10,9 @@ RSpec.describe 'Api::V1::Teachers::Homeworks', type: :request do
   let(:homework) do
     create(:homework, title: 'Calculus', due_at: Time.current, teacher:, subject: maths)
   end
+  let(:homework2) do
+    create(:homework, title: 'Algebra', due_at: Time.current, teacher:, subject: maths)
+  end
   let(:application) { create(:application) }
   let(:token) { create(:access_token, application:, resource_owner_id: teacher.id) }
 
@@ -20,12 +23,21 @@ RSpec.describe 'Api::V1::Teachers::Homeworks', type: :request do
 
   describe 'GET /index' do
     before do
-      homework
+      homework && homework2
     end
 
     it do
       get '/api/v1/teachers/homeworks', params: {}, headers: { Authorization: "Bearer #{token.token}" }
       expect(response).to have_http_status(:ok)
+      expect(response.parsed_body['homeworks'].length).to eq(2)
+    end
+
+    context 'when search' do
+      it do
+        get '/api/v1/teachers/homeworks', params: { query: 'Cal' }, headers: { Authorization: "Bearer #{token.token}" }
+        expect(response).to have_http_status(:ok)
+        expect(response.parsed_body['homeworks'].length).to eq(1)
+      end
     end
   end
 
