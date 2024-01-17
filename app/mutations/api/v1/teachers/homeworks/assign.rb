@@ -30,6 +30,8 @@ class Api::V1::Teachers::Homeworks::Assign < ApplicationMutation
   def params
     inputs.slice(
       :student_id
+    ).merge(
+      invited_at: Time.current
     )
   end
 end

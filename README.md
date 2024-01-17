@@ -3,7 +3,7 @@
 
 ## Prerequisites
 - Ruby 3+
-- Postgresql 15
+- Postgresql 15+
 
 ## Development Setup in local
 

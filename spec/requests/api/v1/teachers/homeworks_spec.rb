@@ -24,7 +24,6 @@ RSpec.describe 'Api::V1::Teachers::Homeworks', type: :request do
       homework && homework2
     end
 
-    # kSGB0geE5-zwzcwyDFBurV79JfTjcZW82vWaGaIsF40
     it do
       get '/api/v1/teachers/homeworks', params: {}, headers: { Authorization: "Bearer #{token.token}" }
       expect(response).to have_http_status(:ok)
