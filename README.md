@@ -11,10 +11,12 @@
 2. Make sure postgres is running
 
 ```sh
+# setup project
 bin/setup
 
 # prepare database
-bundle exec rails db:create db:migrate db:seeds
+# bundle exec rails db:create db:migrate db:seeds 
+bundle exec rails db:prepare
 
 # run dev server
 bundle exec rails server
@@ -34,6 +36,68 @@ docker exec -it homework-be_dev bash
 
 
 ## Deployment (docker)
+
+
+## ERD
+
+![https://www.plantuml.com/plantuml/uml/SyfFKj2rKt3CoKnELR1Io4ZDoSa70000](https://www.plantuml.com/plantuml/svg/VL51JiGm3Bpd5JaZvG_B1N57Uwv2RRQ69AvY1uIw_9rcjm5M4Jrvh1dFECv1r6SjCHXCIlffZuBPBiRUMG9ZdNCLPWvOAqPFeOBPYtnmXW7eXABcoxJvf_ByYgDs5ib7h7NamFcF_f4ZhavltO2Y7oVC0q7jv6gxTL1my5gHabvNooXSyeZ32mMiij-8Un4w9OH_ewQDQ5bQ05FBelHEYh3bYNejicqKIIlJ9nxdm1uG7bQcIvkzJglsW0dgtStbucTsZfUVQvW6BiJIFU5cg2FR7-oQylbcJTDSzaJV)
+
+<details>
+<summary>PUML</summary>
+
+```plantuml
+@startuml
+entity User {
+ * id
+ ---
+ * role
+ * email
+ * password_digest
+}
+
+entity Subject {
+ * id
+ ---
+ * name
+ * color
+}
+
+entity Homework {
+ * id
+ ---
+ * teacher_id
+ * subject_id
+ * due_at
+ * title
+ * resource_file_id
+}
+
+entity AssignedHomework {
+ * id
+ ---
+ * homework_id
+ * student_id
+ * invited_at
+ * status
+ * submitted_file_id
+}
+
+entity UploadedFile {
+ * id
+ ---
+ * path
+}
+@enduml
+
+User |o--o{ Homework
+Homework |o--{ AssignedHomework
+User |o--o{ AssignedHomework
+Subject |o--o{ Homework
+Homework |o--o| UploadedFile
+AssignedHomework |o--o| UploadedFile
+```
+
+</details>
 
 
 ## API docs
