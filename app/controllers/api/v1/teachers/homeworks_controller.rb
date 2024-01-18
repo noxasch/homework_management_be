@@ -66,6 +66,17 @@ class Api::V1::Teachers::HomeworksController < Api::V1::TeachersController
     end
   end
 
+  def unassign
+    outcome = Api::V1::Teachers::Homeworks::Unassign.run(assign_params)
+
+    if outcome.success?
+      render json: { success: true }, status: :accepted
+    else
+      # map outcome error into hash
+      render json: { errors: {} }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def homework

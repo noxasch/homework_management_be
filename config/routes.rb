@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       namespace :teachers do
         resources :homeworks do
           post 'assign', on: :member
+          delete 'unassign', on: :member
         end
       end
 

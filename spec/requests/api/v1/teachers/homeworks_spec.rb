@@ -180,4 +180,29 @@ RSpec.describe 'Api::V1::Teachers::Homeworks', type: :request do
       })
     end
   end
+
+  describe 'DELETE /unassign' do
+    let(:student) do
+      create(:user, role: :student, name: 'Student 1', email: 'student@gmail.com', password: 'password')
+    end
+    let(:assigned_homework) do
+      create(:assigned_homework, homework:, student:)
+    end
+
+    let(:params) do
+      {
+        student_id: student.id
+      }
+    end
+
+    before do
+      assigned_homework
+    end
+
+    it do
+      delete "/api/v1/teachers/homeworks/#{homework.id}/unassign",
+             params:, headers: { Authorization: "Bearer #{token.token}" }
+      expect(response).to have_http_status(:accepted)
+    end
+  end
 end

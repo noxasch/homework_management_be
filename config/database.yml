@@ -22,7 +22,7 @@ default: &default
 development:
   <<: *default
   database: homework_management_be_development
-  username: postgres
+  username: <%= ENV["DB_USER"] || 'postgres' %>
 
   # The specified database role being used to connect to PostgreSQL.
   # To create additional roles in PostgreSQL see `$ createuser --help`.
@@ -57,7 +57,7 @@ development:
 test:
   <<: *default
   database: homework_management_be_test
-  username: postgres
+  username: <%= ENV["DB_USER"] || 'postgres' %>
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -82,5 +82,5 @@ test:
 production:
   <<: *default
   database: homework_management_be_production
-  username: homework_management_be
-  password: <%= ENV["HOMEWORK_MANAGEMENT_BE_DATABASE_PASSWORD"] %>
+  username: <%= ENV["DB_USER"] %>
+  password: <%= ENV["DB_PASSWORD"] %>
