@@ -93,8 +93,9 @@ class Api::V1::Teachers::HomeworksController < Api::V1::TeachersController
 
   def search_params
     {
-      q: params[:query]
-    }
+      subject_ids: params[:subject_ids],
+      query: params[:query]
+    }.compact
   end
 
   def create_params

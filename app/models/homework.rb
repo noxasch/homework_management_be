@@ -37,7 +37,8 @@ class Homework < ApplicationRecord
     return all if args.blank?
 
     res = all
-    res = res.where('homeworks.title ILIKE :query', query: "%#{args[:q].downcase}%") if args[:q].present?
+    res = res.where('homeworks.title ILIKE :query', query: "%#{args[:query].downcase}%") if args[:query].present?
+    res = res.where(subject: args[:subject_ids]) if args[:subject_ids]
     res
   end
 

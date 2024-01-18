@@ -7,11 +7,14 @@ RSpec.describe 'Api::V1::Teachers::Homeworks', type: :request do
   let(:maths) do
     create(:subject, color: '#ff3333', name: 'Mathematics')
   end
+  let(:history) do
+    create(:subject, color: '#ff3333', name: 'History')
+  end
   let(:homework) do
     create(:homework, title: 'Calculus', due_at: Time.zone.parse('2024-01-14'), teacher:, subject: maths)
   end
   let(:homework2) do
-    create(:homework, title: 'Algebra', due_at: Time.zone.parse('2024-01-15'), teacher:, subject: maths)
+    create(:homework, title: 'Algeria', due_at: Time.zone.parse('2024-01-15'), teacher:, subject: history)
   end
   let(:token) { create(:access_token, resource_owner_id: teacher.id, scopes: 'api') }
 
@@ -33,6 +36,15 @@ RSpec.describe 'Api::V1::Teachers::Homeworks', type: :request do
     context 'when search' do
       it do
         get '/api/v1/teachers/homeworks', params: { query: 'Cal' }, headers: { Authorization: "Bearer #{token.token}" }
+        expect(response).to have_http_status(:ok)
+        expect(response.parsed_body['homeworks'].length).to eq(1)
+      end
+    end
+
+    context 'when filter by subject' do
+      it do
+        get '/api/v1/teachers/homeworks', params: { subject_ids: [maths.id] },
+                                          headers: { Authorization: "Bearer #{token.token}" }
         expect(response).to have_http_status(:ok)
         expect(response.parsed_body['homeworks'].length).to eq(1)
       end
