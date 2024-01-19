@@ -1,0 +1,29 @@
+version: '3'
+services:
+  hm_db:
+    image: postgres:15-alpine
+    container_name: "hm_db"
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - ./tmp/db/postgres:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+  hm_be:
+    stdin_open: true
+    container_name: "hm_be"
+    depends_on:
+      - hm_db
+    links:
+      - hm_db
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./
+    volumes:
+      - .:/app
+    ports:
+      - '3000:3000'
+    env_file:
+      - ./.env
