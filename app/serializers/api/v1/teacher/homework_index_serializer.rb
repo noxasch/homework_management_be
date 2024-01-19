@@ -1,8 +1,12 @@
 class Api::V1::Teacher::HomeworkIndexSerializer < ApplicationSerializer
-  attributes :id, :title, :subject, :due_date, :submitted, :total
+  attributes :id, :title, :subject, :due_date, :submitted, :total, :color
 
   def subject
     object.subject.name
+  end
+
+  def color
+    object.subject.color
   end
 
   def due_date

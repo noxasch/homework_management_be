@@ -25,7 +25,7 @@ class Api::V1::Teachers::HomeworksController < Api::V1::TeachersController
              status: :created,
              serializer: ::Api::V1::Teacher::HomeworkIndexSerializer
     else
-      render json: { errors: {} }, status: :unprocessable_entity
+      render json: { errors: outcome.errors }, status: :unprocessable_entity
     end
   end
 
