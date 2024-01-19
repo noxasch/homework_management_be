@@ -17,10 +17,15 @@ Rails.application.routes.draw do
           post 'assign', on: :member
           delete 'unassign', on: :member
         end
+        resources :subjects, only: %i[index]
       end
 
       resources :student, only: %i[index] do
         resources :assigned_homeworks, only: %i[update]
+      end
+
+      namespace :users do
+        get :sync, action: :sync
       end
     end
   end
