@@ -102,6 +102,9 @@ AssignedHomework |o--o| UploadedFile
 
 ## API docs
 
+### Authentication
+
+Login
 ```sh
 # get oauth token
 POST /oauth/token
@@ -116,7 +119,18 @@ POST /oauth/token
 }
 ```
 
-#### homeworks
+Logout
+```sh
+# get oauth token
+POSt /oauth/revoke
+
+```
+
+```js
+{}
+```
+
+### homeworks
 
 ```
 GET /api/v1/teachers/homeworks
