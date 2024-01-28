@@ -37,8 +37,7 @@ class Api::V1::Teachers::HomeworksController < Api::V1::TeachersController
              status: :accepted,
              serializer: ::Api::V1::Teacher::HomeworkIndexSerializer
     else
-      # map outcome error into hash
-      render json: { errors: {} }, status: :unprocessable_entity
+      render json: { errors: outcome.errors }, status: :unprocessable_entity
     end
   end
 
@@ -48,8 +47,7 @@ class Api::V1::Teachers::HomeworksController < Api::V1::TeachersController
     if outcome.success?
       render json: { success: true }, status: :accepted
     else
-      # map outcome error into hash
-      render json: { errors: {} }, status: :unprocessable_entity
+      render json: { errors: outcome.errors }, status: :unprocessable_entity
     end
   end
 
@@ -61,8 +59,7 @@ class Api::V1::Teachers::HomeworksController < Api::V1::TeachersController
              status: :accepted,
              serializer: ::Api::V1::Teacher::HomeworkIndexSerializer
     else
-      # map outcome error into hash
-      render json: { errors: {} }, status: :unprocessable_entity
+      render json: { errors: outcome.errors }, status: :unprocessable_entity
     end
   end
 
@@ -72,8 +69,7 @@ class Api::V1::Teachers::HomeworksController < Api::V1::TeachersController
     if outcome.success?
       render json: { success: true }, status: :accepted
     else
-      # map outcome error into hash
-      render json: { errors: {} }, status: :unprocessable_entity
+      render json: { errors: outcome.errors }, status: :unprocessable_entity
     end
   end
 
@@ -84,11 +80,11 @@ class Api::V1::Teachers::HomeworksController < Api::V1::TeachersController
   end
 
   def homeworks
-    @homeworks ||= current_user
-                   .homeworks
-                   .search(search_params)
-                   .sorted_by(sorted_by_params)
-                   .page(page).per(per)
+    @homeworks ||= Homework.includes(:subject, :assigned_homeworks)
+                           .where(teacher: current_user)
+                           .search(search_params)
+                           .sorted_by(sorted_by_params)
+                           .page(page).per(per)
   end
 
   def search_params

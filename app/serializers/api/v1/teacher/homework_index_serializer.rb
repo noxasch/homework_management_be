@@ -14,10 +14,12 @@ class Api::V1::Teacher::HomeworkIndexSerializer < ApplicationSerializer
   end
 
   def submitted
-    object.assigned_homeworks.where(status: :completed).count
+    # rubocop:disable Performance/Count
+    object.assigned_homeworks.select(&:completed).length
+    # rubocop:enable Performance/Count
   end
 
   def total
-    object.assigned_homeworks.count
+    object.assigned_homeworks.length
   end
 end

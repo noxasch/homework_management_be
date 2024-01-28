@@ -3,8 +3,10 @@ class ApplicationController < ActionController::API
 
   def current_user
     return unless doorkeeper_token
+    return @current_user if @current_user
 
-    User.find(doorkeeper_token.resource_owner_id)
+    @current_user ||= User.find(doorkeeper_token.resource_owner_id)
+    @current_user
   end
 
   def success
